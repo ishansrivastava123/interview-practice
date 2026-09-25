@@ -1,11 +1,15 @@
 const imgUrls = [
+  'https://picsum.photos/id/10/367/267',
+  'https://picsum.photos/id/11/367/267',
+  'https://picsum.photos/id/12/367/267',
   'https://picsum.photos/id/13/367/267',
   'https://picsum.photos/id/14/367/267',
   'https://picsum.photos/id/15/367/267',
   'https://picsum.photos/id/16/367/267',
   'https://picsum.photos/id/17/367/267',
   'https://picsum.photos/id/18/367/267',
-  'https://picsum.photos/id/19/367/267'
+  'https://picsum.photos/id/19/367/267',
+  'https://picsum.photos/id/20/367/267'
 ];
 
 const gallery = document.getElementById("gallery");
@@ -24,16 +28,36 @@ gallery.addEventListener('click', (e) => {
   modal.querySelector("img").src = e.target.src;
 })
 
-modal.querySelectorAll("button")[0].addEventListener("click", (e) => {
-  e.stopPropagation();
+function incrementUrl() {
+  photoIndex = (photoIndex === (imgUrls.length - 1)) ? 0 : (photoIndex + 1);
+  modal.querySelector("img").src = imgUrls[photoIndex];
+}
+
+function decrementUrl() {
   photoIndex = (photoIndex === 0) ? (imgUrls.length - 1) : (photoIndex - 1);
   modal.querySelector("img").src = imgUrls[photoIndex];
+}
+
+modal.querySelectorAll("button")[0].addEventListener("click", (e) => {
+  e.stopPropagation();
+  decrementUrl();
 })
 
 modal.querySelectorAll("button")[1].addEventListener("click", (e) => {
   e.stopPropagation();
-  photoIndex = (photoIndex === (imgUrls.length - 1)) ? 0 : (photoIndex + 1);
-  modal.querySelector("img").src = imgUrls[photoIndex];
+  incrementUrl();
+})
+
+document.addEventListener("keydown", (e) => {
+  if (modal.style.display !== "flex") return;
+
+  if (e.key === "ArrowLeft") {
+    decrementUrl();
+  }
+
+  if (e.key === "ArrowRight") {
+    incrementUrl();
+  }
 })
 
 modal.querySelector("img").addEventListener("click", (e) => {
@@ -43,4 +67,3 @@ modal.querySelector("img").addEventListener("click", (e) => {
 modal.addEventListener("click", () => {
   modal.style.display = "none";
 })
-
